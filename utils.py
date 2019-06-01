@@ -6,7 +6,7 @@ def move_mouse_relative(command):
     """Move mouse relative to the current position.
 
     command should be a string of format: "x, y"
-    returns empty string or error message.
+    returns OK or error message.
     """
     try:
         x, y = [float(val) for val in command.split(',')]
@@ -32,3 +32,34 @@ def get_screen_size(command):
     returns the screen size in pixels. Format: "x, y"
     """
     return ','.join([str(value) for value in pyautogui.size()]).encode()
+
+
+def left_click(command):
+    """Left mouse click.
+
+    command is ignored.
+    returns OK or error message.
+    """
+    pyautogui.click(button='left')
+    return 'OK'.encode()
+
+
+def right_click(command):
+    """Left mouse click.
+
+    command is ignored.
+    returns OK or error message.
+    """
+    pyautogui.click(button='right')
+    return 'OK'.encode()
+
+
+def text_input(command):
+    """Input a text from keyboard.
+
+    command: text to input.
+    returns OK or error message.
+    """
+    pyautogui.typewrite(command)
+    return 'OK'.encode()
+

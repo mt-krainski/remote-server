@@ -21,7 +21,12 @@ util_functions['list'] = list_functions
 
 def process_data(data):
     if ':' in data:
-        func, command = data.split(': ', 1)
+        split_result = data.split(': ', 1)
+        func = split_result[0]
+        if len(split_result)==2:
+            command = split_result[1]
+        else:
+            command = ''
     else:
         func = data
         command = ''
@@ -71,15 +76,15 @@ if __name__ == '__main__':
                 logging.info(f'Connected by: {addr}.')
                 while True:
                     logging.debug('Waiting for message...')
-                    data = conn.recv(1024).decode()
+                    data = conn.recv(1024).decode().strip('\n')
                     if not data:
                         logging.info('Client disconnected.')
                         break
                     logging.info('Processing command.')
-                    logging.debug(f'Received: {data}.')
+                    logging.debug(f'Received: "{data}".')
                     try:
                         retvalue = process_data(data)
-                        logging.debug(f'Sending response: {retvalue}')
+                        logging.debug(f'Sending response: "{retvalue}"')
                         conn.sendall(retvalue)
                     except Exception as e:
                         logging.exception(e)
