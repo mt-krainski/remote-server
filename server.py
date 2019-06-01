@@ -31,12 +31,15 @@ def process_data(data):
         if util_functions[func].__doc__:
             return util_functions[func].__doc__.encode()
         else:
-            return b'No documentation found.'
+            return b'No documentation found.\n'
     if func not in util_functions:
         logging.debug(f'Invalid function!')
-        return b'Invalid command.'
+        return b'Invalid command.\n'
     logging.debug(f'Running "{func}" with "{command}".')
-    return util_functions[func](command)
+    retvalue = util_functions[func](command)
+    if retvalue[-1] != b'\n':
+        retvalue += b'\n'
+    return retvalue
 
 
 if __name__ == '__main__':
