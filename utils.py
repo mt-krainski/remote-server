@@ -63,3 +63,12 @@ def text_input(command):
     pyautogui.typewrite(command)
     return 'OK'.encode()
 
+
+def press_key(command):
+    """Press a special key on the keyboard.
+
+    See https://pyautogui.readthedocs.io/en/latest/keyboard.html#keyboard-keys
+    for the list of keys. 
+    """
+    pyautogui.press(command)
+    return 'OK'.encode()
