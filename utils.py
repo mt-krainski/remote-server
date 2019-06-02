@@ -1,5 +1,13 @@
 
 import pyautogui
+from sys import platform
+
+if platform == 'linux':
+    try:
+        import alsaaudio
+        _audio_mixer = alsaaudio.Mixer()
+    except:
+        print('Audio controls will not work. Please install libasound2-dev and pyalsaaudio')
 
 
 def move_mouse_relative(command):
@@ -72,3 +80,35 @@ def press_key(command):
     """
     pyautogui.press(command)
     return 'OK'.encode()
+
+
+def hotkey(command):
+    """Press a combination of keys on the keyboard.
+
+    See https://pyautogui.readthedocs.io/en/latest/keyboard.html#keyboard-keys
+    for the list of keys. 
+    """
+    sequence = [s.strip() for s in command.split(',')]
+    pyautogui.hotkey(*sequence)
+    return 'OK'.encode()
+
+def update_volume_relative(command):
+    """Change the volume relative by command percent.
+    
+    Returns updated volume or error message.
+    """
+    if platform == 'linux':
+        try:
+            vol = _audio_mixer.getvolume()
+            vol = int(vol[0])
+            new_vol = vol + int(command)
+            _audio_mixer.setvolume(new_vol)
+            return f'volume: {new_vol}'.encode()
+        except Exception:
+            return 'Error updating volume.'.encode()
+    if int(command)>0:
+        pyautogui.press('volumeup')
+    elif int(command)<0:
+        pyautogui.press('volumedown')
+
+    return 'Volume: None'.encode()
