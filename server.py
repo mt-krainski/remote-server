@@ -19,6 +19,23 @@ def list_functions(command):
 util_functions['list'] = list_functions
 
 
+def get_ip():
+    """Return local IPv4 address.
+    
+    As described: https://stackoverflow.com/a/28950776
+    """
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        # doesn't even have to be reachable
+        s.connect(('10.255.255.255', 1))
+        ip = s.getsockname()[0]
+    except:
+        ip = socket.gethostbyname(socket.gethostname())
+    finally:
+        s.close()
+    return ip
+
+
 def process_data(data):
     if ':' in data:
         split_result = data.split(': ', 1)
@@ -58,7 +75,7 @@ if __name__ == '__main__':
     )
 
     hostname = socket.gethostname()
-    my_ip = socket.gethostbyname(hostname)
+    my_ip = get_ip()
 
     logging.info(
         f'Starting remote-control server on {hostname} ({my_ip}:{PORT})...')
