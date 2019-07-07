@@ -1,3 +1,4 @@
+black
+pyalsaaudio
 pyautogui
 xlib
-pyalsaaudio
