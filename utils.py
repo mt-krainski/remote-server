@@ -24,6 +24,20 @@ def move_mouse_relative(command):
     return 'OK'.encode()
 
 
+def scroll_mouse(command):
+    """Scroll the mouse wheel.
+
+    command should be a string of format: "x".
+    returns OK or error message.
+    """
+    try:
+        x = int(float(command))
+    except ValueError:
+        return f'Invalid command: {command}. Should be "x"'.encode()
+    pyautogui.scroll(x)
+    return 'OK'.encode()
+
+
 def get_mouse_position(command):
     """Return current mouse position.
 
@@ -59,6 +73,16 @@ def right_click(command):
     returns OK or error message.
     """
     pyautogui.click(button='right')
+    return 'OK'.encode()
+
+
+def middle_click(command):
+    """Middle mouse click.
+
+    command is ignored.
+    returns OK or error message
+    """
+    pyautogui.click(button='middle')
     return 'OK'.encode()
 
 
