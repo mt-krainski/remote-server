@@ -2,7 +2,7 @@
 import pyautogui
 from sys import platform
 
-pyautogui.PAUSE = 0.01
+pyautogui.PAUSE = 0.0001
 
 if platform == 'linux':
     try:
@@ -10,6 +10,10 @@ if platform == 'linux':
         _audio_mixer = alsaaudio.Mixer()
     except:
         print('Audio controls will not work. Please install libasound2-dev and pyalsaaudio')
+
+MOSE_SCROLL_SCALE = 1.0
+if platform == 'linux':
+    MOUSE_SCROLL_SCALE = 0.2
 
 
 def move_mouse_relative(command):
@@ -33,7 +37,7 @@ def scroll_mouse(command):
     returns OK or error message.
     """
     try:
-        x = int(float(command))
+        x = int(float(command)*MOUSE_SCROLL_SCALE)
     except ValueError:
         return f'Invalid command: {command}. Should be "x"'.encode()
     pyautogui.scroll(x)
