@@ -2,6 +2,8 @@
 import pyautogui
 from sys import platform
 
+pyautogui.PAUSE = 0.01
+
 if platform == 'linux':
     try:
         import alsaaudio
