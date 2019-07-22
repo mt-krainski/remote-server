@@ -11,7 +11,7 @@ if platform == 'linux':
     except:
         print('Audio controls will not work. Please install libasound2-dev and pyalsaaudio')
 
-MOSE_SCROLL_SCALE = 1.0
+MOUSE_SCROLL_SCALE = 1.0
 if platform == 'linux':
     MOUSE_SCROLL_SCALE = 0.2
 
