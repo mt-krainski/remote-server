@@ -1,18 +1,20 @@
-
 import pyautogui
 from sys import platform
 
 pyautogui.PAUSE = 0.0001
 
-if platform == 'linux':
+if platform == "linux":
     try:
         import alsaaudio
+
         _audio_mixer = alsaaudio.Mixer()
     except:
-        print('Audio controls will not work. Please install libasound2-dev and pyalsaaudio')
+        print(
+            "Audio controls will not work. Please install libasound2-dev and pyalsaaudio"
+        )
 
 MOUSE_SCROLL_SCALE = 1.0
-if platform == 'linux':
+if platform == "linux":
     MOUSE_SCROLL_SCALE = 0.2
 
 
@@ -23,11 +25,11 @@ def move_mouse_relative(command):
     returns OK or error message.
     """
     try:
-        x, y = [float(val) for val in command.split(',')]
+        x, y = [float(val) for val in command.split(",")]
     except ValueError:
         return f'Invalid command: {command}. Command should be "x, y"'.encode()
     pyautogui.moveRel(x, y)
-    return 'OK'.encode()
+    return "OK".encode()
 
 
 def scroll_mouse(command):
@@ -37,11 +39,11 @@ def scroll_mouse(command):
     returns OK or error message.
     """
     try:
-        x = int(float(command)*MOUSE_SCROLL_SCALE)
+        x = int(float(command) * MOUSE_SCROLL_SCALE)
     except ValueError:
         return f'Invalid command: {command}. Should be "x"'.encode()
     pyautogui.scroll(x)
-    return 'OK'.encode()
+    return "OK".encode()
 
 
 def get_mouse_position(command):
@@ -50,7 +52,7 @@ def get_mouse_position(command):
     command is ignored.
     returns the current cursor position in pixels. Format: "x, y"
     """
-    return ','.join([str(value) for value in pyautogui.position()]).encode()
+    return ",".join([str(value) for value in pyautogui.position()]).encode()
 
 
 def get_screen_size(command):
@@ -59,7 +61,7 @@ def get_screen_size(command):
     command is ignored.
     returns the screen size in pixels. Format: "x, y"
     """
-    return ','.join([str(value) for value in pyautogui.size()]).encode()
+    return ",".join([str(value) for value in pyautogui.size()]).encode()
 
 
 def left_click(command):
@@ -68,8 +70,8 @@ def left_click(command):
     command is ignored.
     returns OK or error message.
     """
-    pyautogui.click(button='left')
-    return 'OK'.encode()
+    pyautogui.click(button="left")
+    return "OK".encode()
 
 
 def right_click(command):
@@ -78,8 +80,8 @@ def right_click(command):
     command is ignored.
     returns OK or error message.
     """
-    pyautogui.click(button='right')
-    return 'OK'.encode()
+    pyautogui.click(button="right")
+    return "OK".encode()
 
 
 def middle_click(command):
@@ -88,8 +90,8 @@ def middle_click(command):
     command is ignored.
     returns OK or error message
     """
-    pyautogui.click(button='middle')
-    return 'OK'.encode()
+    pyautogui.click(button="middle")
+    return "OK".encode()
 
 
 def text_input(command):
@@ -99,7 +101,7 @@ def text_input(command):
     returns OK or error message.
     """
     pyautogui.typewrite(command)
-    return 'OK'.encode()
+    return "OK".encode()
 
 
 def press_key(command):
@@ -109,7 +111,7 @@ def press_key(command):
     for the list of keys. 
     """
     pyautogui.press(command)
-    return 'OK'.encode()
+    return "OK".encode()
 
 
 def hotkey(command):
@@ -118,27 +120,28 @@ def hotkey(command):
     See https://pyautogui.readthedocs.io/en/latest/keyboard.html#keyboard-keys
     for the list of keys. 
     """
-    sequence = [s.strip() for s in command.split(',')]
+    sequence = [s.strip() for s in command.split(",")]
     pyautogui.hotkey(*sequence)
-    return 'OK'.encode()
+    return "OK".encode()
+
 
 def update_volume_relative(command):
     """Change the volume relative by command percent.
     
     Returns updated volume or error message.
     """
-    if platform == 'linux':
+    if platform == "linux":
         try:
             vol = _audio_mixer.getvolume()
             vol = int(vol[0])
             new_vol = vol + int(command)
             _audio_mixer.setvolume(new_vol)
-            return f'volume: {new_vol}'.encode()
+            return f"volume: {new_vol}".encode()
         except Exception:
-            return 'Error updating volume.'.encode()
-    if int(command)>0:
-        pyautogui.press('volumeup')
-    elif int(command)<0:
-        pyautogui.press('volumedown')
+            return "Error updating volume.".encode()
+    if int(command) > 0:
+        pyautogui.press("volumeup")
+    elif int(command) < 0:
+        pyautogui.press("volumedown")
 
-    return 'Volume: None'.encode()
+    return "Volume: None".encode()
