@@ -92,7 +92,7 @@ if __name__ == "__main__":
                     logging.debug("Waiting for message...")
                     try:
                         data = conn.recv(1024).decode().strip("\n")
-                    except (ConnectionResetError, TimeoutError):
+                    except (ConnectionResetError, TimeoutError, ConnectionAbortedError):
                         print("Connection was reset.")
                         break
                     if not data:
